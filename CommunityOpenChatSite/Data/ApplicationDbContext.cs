@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CommunityOpenChatSite.Models;
 
 namespace CommunityOpenChatSite.Data
 {
@@ -12,5 +13,7 @@ namespace CommunityOpenChatSite.Data
             : base(options)
         {
         }
+
+        public DbSet<PictureForum> PhotoPosts { get; set; }
     }
 }
