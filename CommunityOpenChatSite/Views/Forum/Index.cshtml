@@ -1,0 +1,70 @@
+﻿@model IEnumerable<PictureForum>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor http
+@{
+    ViewData["Title"] = "Forum Posts";
+}
+
+<h1>Forum Posts</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<br />
+<a class="btn btn-primary" asp-action="Add" asp-controller="Product">Add Forum</a>
+<br />
+
+<div class="table-responsive">
+    <table class="table table-hover table-light table-striped">
+        <thread>
+            <tr class="table-primary">
+                <th scope="col">@Html.DisplayNameFor(m => m.ForumName)</th>
+                <th scope="col">@Html.DisplayNameFor(m => m.ForumDescription)</th>
+                <th></th>
+            </tr>
+        </thread>
+        <tbody>
+
+            @{
+                string previousUrl = http.HttpContext.Request.Path;
+            }
+
+            @foreach (PictureForum f in Model)
+            {
+                <tr>
+                    <td>@f.ForumName</td>
+                    <td>@f.ForumDescription</td>
+                    <td>
+                        <a class="btn btn-info" asp-route-id="@f.TextForumId" asp-action="Edit">Edit</a>
+                        <a class="btn btn-danger" asp-route-id="@f.TextForumId" asp-action="Delete">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@* Print out page nums *@
+<ul class="pagination">
+    @for (int i = 1; i <= (int)ViewData["MaxPage"]; i++)
+    {
+        if (i == (int)ViewData["CurrentPage"])
+        {
+            <li class="page-item active">
+                <a class="page-link" asp-action="Index" asp-route-id="@i">@i</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-id="@i">@i</a>
+            </li>
+        }
+
+    }
+</ul>
